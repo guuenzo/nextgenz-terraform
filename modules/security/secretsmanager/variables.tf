@@ -1,16 +1,24 @@
 variable "secret_name" {
-  description = "Nome do segredo no AWS Secrets Manager"
+  description = "Nome do segredo no Secrets Manager."
   type        = string
+  default     = "nextgenz-rds-secret"
 }
 
-variable "db_username" {
-  description = "Usuário do banco de dados"
+variable "username" {
+  description = "Usuário do banco de dados."
   type        = string
+  default     = "admin"
 }
 
-variable "db_password" {
-  description = "Senha do banco de dados"
+variable "password" {
+  description = "Senha do banco de dados."
   type        = string
   sensitive   = true
+  default     = "Senai134"
 }
 
+variable "environment" {
+  description = "Ambiente (ex: dev, prod)."
+  type        = string
+  default     = "prod"
+}

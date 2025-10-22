@@ -1,7 +1,9 @@
-output "db_username" {
-  value = var.db_username
+output "secret_arn" {
+  description = "ARN do segredo criado."
+  value       = aws_secretsmanager_secret.rds_secret.arn
 }
 
-output "db_password" {
-  value = var.db_password
+output "secret_name" {
+  description = "Nome do segredo criado."
+  value       = aws_secretsmanager_secret.rds_secret.name
 }
