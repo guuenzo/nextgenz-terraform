@@ -1,5 +1,5 @@
 resource "aws_wafv2_web_acl" "WafRegrasFree" {
-name = var.waf_name 
+name = "${var.waf_webacl_name}${var.environment}-webacl"
 scope = var.waf_scope
 default_action {
   allow { }
