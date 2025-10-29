@@ -69,3 +69,11 @@ module "metrics_server" {
 
   depends_on = [ module.eks ]
 }
+
+module "waf" {
+  source = "./modules/security/WAF"
+
+  waf_name = "next-gen-z-waf"
+  waf_metric_name = "next-gen-z-waf-metric"
+  waf_scope = "REGIONAL"
+}
