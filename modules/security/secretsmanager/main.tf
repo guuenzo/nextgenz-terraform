@@ -4,7 +4,7 @@ resource "aws_secretsmanager_secret" "rds_secret" {
   recovery_window_in_days = 30
 
   tags = {
-    Name        = var.secret_name
+    Name        = "${var.secret_name}-${var.environment}-secret"
     Environment = var.environment
   }
 }

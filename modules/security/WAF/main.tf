@@ -1,5 +1,5 @@
-resource "aws_wafv2_web_acl" "WafRegrasFree" {
-name = "${var.waf_webacl_name}${var.environment}-webacl"
+resource "aws_wafv2_web_acl" "main" {
+name = "${var.waf_webacl_name}-${var.environment}-webacl"
 scope = var.waf_scope
 default_action {
   allow { }
@@ -136,5 +136,10 @@ rule {
     metric_name = "awsSQLiRulesmetrics"
     sampled_requests_enabled = true
   }
+ }
+
+ tags = {
+   Name = "${var.waf_webacl_name}-${var.environment}-webacl"
+   Environment = var.environment
  }
 }

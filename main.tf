@@ -70,6 +70,13 @@ module "metrics_server" {
   depends_on = [module.eks]
 }
 
+module "ecr" {
+  source = "./modules/docker"
+
+  repo_name   = "nextgenZ"
+  environment = "prod"
+}
+
 module "waf" {
   source = "./modules/security/waf"
 
@@ -100,10 +107,10 @@ module "database" {
   allocated_storage       = 20
   engine_version          = "10.11.8"
   subnet_ids              = [module.networking.private_sub_a_id, module.networking.private_sub_b_id]
-  db_sg_id = module.networking.db_sg_id
+  db_sg_id                = module.networking.db_sg_id
+  db_username             = var.username
+  db_password             = var.db_password
   environment             = "prod"
-  db_username = var.username
-  db_password = var.db_password
 
   depends_on = [module.secretsmanager]
 }
