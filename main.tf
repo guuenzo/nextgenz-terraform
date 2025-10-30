@@ -21,54 +21,54 @@ module "iam" {
   node_role_name    = "NodeRole"
 }
 
-module "eks" {
-  source  = "app.terraform.io/tcc_senai/eks/aws"
-  version = "1.0.0"
-  # insert required variables here
-  cluster_name          = "nextgenz"
-  cluster_subnet_ids    = [module.networking.public_sub_a_id, module.networking.public_sub_b_id, module.networking.private_sub_a_id, module.networking.private_sub_b_id]
-  cluster_sg_id         = module.networking.cluster_sg_id
-  k8s_cluster_role_arn  = module.iam.cluster_role_arn
-  k8s_version           = "1.33"
-  node_group_role_arn   = module.iam.node_role_arn
-  node_group_subnet_ids = [module.networking.private_sub_a_id, module.networking.private_sub_b_id]
-  environment           = "prod"
+# module "eks" {
+#   source  = "app.terraform.io/tcc_senai/eks/aws"
+#   version = "1.0.0"
+#   # insert required variables here
+#   cluster_name          = "nextgenz"
+#   cluster_subnet_ids    = [module.networking.public_sub_a_id, module.networking.public_sub_b_id, module.networking.private_sub_a_id, module.networking.private_sub_b_id]
+#   cluster_sg_id         = module.networking.cluster_sg_id
+#   k8s_cluster_role_arn  = module.iam.cluster_role_arn
+#   k8s_version           = "1.33"
+#   node_group_role_arn   = module.iam.node_role_arn
+#   node_group_subnet_ids = [module.networking.private_sub_a_id, module.networking.private_sub_b_id]
+#   environment           = "prod"
 
-  depends_on = [module.networking, module.iam]
-}
+#   depends_on = [module.networking, module.iam]
+# }
 
-module "alb_controller" {
-  source  = "app.terraform.io/tcc_senai/alb_controller/helm"
-  version = "1.0.0"
-  # insert required variables here
-  cluster_name                = module.eks.cluster_name
-  aws_region                  = var.aws_region
-  vpc_id                      = module.networking.vpc_id
-  eks_cluster_oidc_issuer_url = module.eks.cluster_oidc_issuer_url
+# module "alb_controller" {
+#   source  = "app.terraform.io/tcc_senai/alb_controller/helm"
+#   version = "1.0.0"
+#   # insert required variables here
+#   cluster_name                = module.eks.cluster_name
+#   aws_region                  = var.aws_region
+#   vpc_id                      = module.networking.vpc_id
+#   eks_cluster_oidc_issuer_url = module.eks.cluster_oidc_issuer_url
 
-  depends_on = [module.eks, module.iam]
-}
+#   depends_on = [module.eks, module.iam]
+# }
 
-module "argocd" {
-  source  = "app.terraform.io/tcc_senai/argocd/helm"
-  version = "1.0.0"
+# module "argocd" {
+#   source  = "app.terraform.io/tcc_senai/argocd/helm"
+#   version = "1.0.0"
 
-  depends_on = [module.eks]
-}
+#   depends_on = [module.eks]
+# }
 
-module "keda" {
-  source  = "app.terraform.io/tcc_senai/keda/helm"
-  version = "1.0.0"
+# module "keda" {
+#   source  = "app.terraform.io/tcc_senai/keda/helm"
+#   version = "1.0.0"
 
-  depends_on = [module.eks]
-}
+#   depends_on = [module.eks]
+# }
 
-module "metrics_server" {
-  source  = "app.terraform.io/tcc_senai/metrics_server/helm"
-  version = "1.0.0"
+# module "metrics_server" {
+#   source  = "app.terraform.io/tcc_senai/metrics_server/helm"
+#   version = "1.0.0"
 
-  depends_on = [module.eks]
-}
+#   depends_on = [module.eks]
+# }
 
 module "ecr" {
   source = "./modules/docker"

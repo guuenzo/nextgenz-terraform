@@ -1,9 +1,9 @@
-output "cluster_name" {
-  value = module.eks.cluster_name
-}
+# output "cluster_name" {
+#   value = module.eks.cluster_name
+# }
 
 output "ecr_repo_url" {
-  value = module.ecr.repo_uri
+  value = module.ecr.repo_url
 }
 
 output "db_instance_endpoint" {
@@ -19,5 +19,5 @@ output "cluster_role_name" {
 }
 
 output "node_role_name" {
-  value = module.iam.node_role_names
+  value = module.iam.node_role_name
 }
