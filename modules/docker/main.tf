@@ -1,12 +1,12 @@
 resource "aws_ecr_repository" "main" {
-  name = var.repo_name
+  name                 = var.repo_name
   image_tag_mutability = "MUTABLE"
   encryption_configuration {
-    encryption_type = "AES-256"
+    encryption_type = "AES256"
   }
 
   tags = {
-    Name = var.repo_name
+    Name        = var.repo_name
     Environment = var.environment
   }
 }

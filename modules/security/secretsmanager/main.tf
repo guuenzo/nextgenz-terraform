@@ -1,6 +1,6 @@
 resource "aws_secretsmanager_secret" "rds_secret" {
-  name        = "${var.secret_name}-${var.environment}-secret"
-  description = "Credenciais do banco de dados RDS"
+  name                    = "${var.secret_name}-${var.environment}-secret"
+  description             = "Credenciais do banco de dados RDS"
   recovery_window_in_days = 30
 
   tags = {
