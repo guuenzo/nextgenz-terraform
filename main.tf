@@ -73,7 +73,7 @@ module "iam" {
 module "ecr" {
   source = "./modules/docker"
 
-  repo_name   = "nextgenZ"
+  repo_name   = "nextgenz"
   environment = "prod"
 }
 
