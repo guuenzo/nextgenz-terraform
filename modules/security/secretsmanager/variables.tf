@@ -18,7 +18,7 @@ variable "password" {
 }
 
 variable "environment" {
-  description = "Ambiente (ex: dev, prod)."
+  description = "Ambiente (ex: dev,prod)."
   type        = string
   default     = "prod"
 }
