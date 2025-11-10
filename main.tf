@@ -54,17 +54,17 @@ module "disaster_recovery" {
 ##############################
 
 output "dr_lambda_name" {
-  description = "Nome da função Lambda do módulo DR"
+  description = "Função Lambda responsável pela rotina de Disaster Recovery"
   value       = module.disaster_recovery.dr_lambda_name
 }
 
 output "dr_bucket_name" {
-  description = "Nome do bucket S3 usado pelo módulo DR"
+  description = "Bucket S3 utilizado para armazenamento/metadados do DR"
   value       = module.disaster_recovery.dr_bucket_name
 }
 
 output "dr_schedule_rule_name" {
-  description = "Nome da regra de agendamento (EventBridge) do módulo DR"
+  description = "Regra do EventBridge que agenda a execução automática do DR"
   value       = module.disaster_recovery.dr_schedule_rule_name
 }
 
