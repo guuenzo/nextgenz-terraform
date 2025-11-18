@@ -34,11 +34,11 @@ output "rds_endpoint" {
 ##############################
 
 module "disaster_recovery" {
-  source            = "./modules/disaster_recovery"
-  environment       = "prod"
-  lambda_zip_path   = "${path.module}/modules/disaster_recovery/lambda_function.zip"
-  s3_bucket_name    = "nextgenz-dr-backup-bucket"
-  ec2_instance_id   = "" # pode deixar vazio se ainda não houver EC2
+  source              = "./modules/disaster_recovery"
+  environment         = "prod"
+  lambda_zip_path     = "${path.module}/modules/disaster_recovery/lambda_function.zip"
+  s3_bucket_name      = "nextgenz-dr-backup-bucket"
+  ec2_instance_id     = "" # pode deixar vazio se ainda não houver EC2
   schedule_expression = "cron(0 2 * * ? *)"
   dr_copy_dest_region = "us-east-1"
 

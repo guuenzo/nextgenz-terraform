@@ -75,7 +75,7 @@ resource "aws_backup_plan" "ec2_backup_plan" {
   rule {
     rule_name         = "daily-backup"
     target_vault_name = aws_backup_vault.main[0].name
-    schedule          = "cron(0 2 * * ? *)" # executa às 02:00 UTC
+    schedule          = "cron(0 * * * ? *)" # executa às 02:00 UTC
   }
 
   tags = {
