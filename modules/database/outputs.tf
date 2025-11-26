@@ -15,3 +15,9 @@ output "secret_name" {
   description = "Nome do segredo usado pelo RDS."
   value       = data.aws_secretsmanager_secret.rds_secret.name
 }
+
+output "rds_instance_id" {
+  description = "ID da instância RDS"
+  value       = aws_db_instance.rds_instance.id
+}
+

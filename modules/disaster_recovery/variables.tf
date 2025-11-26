@@ -1,5 +1,5 @@
 variable "environment" {
-  description = "Ambiente de execução (ex.: dev, prod)"
+  description = "Ambiente de execução"
   type        = string
   default     = "prod"
 }
@@ -9,26 +9,29 @@ variable "lambda_zip_path" {
   type        = string
 }
 
-variable "s3_bucket_name" {
-  description = "Nome do bucket S3 usado pelo DR"
+variable "rds_instance_id" {
+  description = "ID da instância RDS"
   type        = string
-}
-
-variable "ec2_instance_id" {
-  description = "ID da instância EC2 a ser incluída no plano de backup (opcional)"
-  type        = string
-  default     = ""
 }
 
 variable "schedule_expression" {
-  description = "Expressão CRON do EventBridge (ex.: cron(0 2 * * ? *))"
+  description = "Expressão CRON do EventBridge"
   type        = string
-  default     = "cron(0 2 * * ? *)"
+  default     = "cron(0 * * * ? *)"
 }
 
-variable "dr_copy_dest_region" {
-  description = "Região de destino para cópia dos backups (opcional)"
+variable "dr_copy_region" {
+  description = "Região para onde o snapshot será copiado"
   type        = string
-  default     = ""
+}
+
+variable "aws_region" {
+  description = "Região atual da AWS"
+  type        = string
+}
+
+variable "aws_account_id" {
+  description = "Account ID da AWS"
+  type        = string
 }
 

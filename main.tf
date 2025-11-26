@@ -1,3 +1,6 @@
+###########################################
+# Módulo Secrets Manager
+###########################################
 module "secretsmanager" {
   source      = "./modules/security/secretsmanager"
   secret_name = "nextgenz-rds-secret"
@@ -6,7 +9,9 @@ module "secretsmanager" {
   environment = "prod"
 }
 
-
+###########################################
+# Módulo RDS
+###########################################
 module "rds" {
   source      = "./modules/database"
   environment = "prod"
@@ -28,19 +33,26 @@ output "rds_endpoint" {
   description = "Endpoint do banco de dados RDS"
 }
 
-
-##############################
-# Módulo: Disaster Recovery (DR)
-##############################
-
+###########################################
+# Módulo Disaster Recovery (RDS Only)
+###########################################
 module "disaster_recovery" {
-  source              = "./modules/disaster_recovery"
-  environment         = "prod"
-  lambda_zip_path     = "${path.module}/modules/disaster_recovery/lambda_function.zip"
-  s3_bucket_name      = "nextgenz-dr-backup-bucket"
-  ec2_instance_id     = "" # pode deixar vazio se ainda não houver EC2
-  schedule_expression = "cron(0 2 * * ? *)"
-  dr_copy_dest_region = "us-east-1"
+  source      = "./modules/disaster_recovery"
+  environment = "prod"
+
+  lambda_zip_path = "${path.module}/modules/disaster_recovery/lambda_function.zip"
+
+  # Obtém automaticamente o ID do RDS criado acima
+  rds_instance_id = module.rds.rds_instance_id
+
+
+
+  schedule_expression = "cron(0 * * * ? *)" # RPO de 1 hora
+  dr_copy_region      = "us-east-1"         # região de DR
+
+
+  aws_region     = var.aws_region
+  aws_account_id = var.aws_account_id
 
   depends_on = [
     module.rds,
@@ -48,23 +60,16 @@ module "disaster_recovery" {
   ]
 }
 
-
-##############################
-# Saída do módulo Disaster Recovery (root)
-##############################
-
+###########################################
+# Outputs do módulo Disaster Recovery
+###########################################
 output "dr_lambda_name" {
-  description = "Função Lambda responsável pela rotina de Disaster Recovery"
+  description = "Lambda que executa a rotina de DR"
   value       = module.disaster_recovery.dr_lambda_name
 }
 
-output "dr_bucket_name" {
-  description = "Bucket S3 utilizado para armazenamento/metadados do DR"
-  value       = module.disaster_recovery.dr_bucket_name
-}
-
 output "dr_schedule_rule_name" {
-  description = "Regra do EventBridge que agenda a execução automática do DR"
+  description = "Regra do EventBridge responsável por agendar o DR"
   value       = module.disaster_recovery.dr_schedule_rule_name
 }
 

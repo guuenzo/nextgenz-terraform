@@ -3,12 +3,12 @@
 #########################################
 
 resource "aws_lambda_function" "dr_backup_lambda" {
-  filename         = var.lambda_zip_path
-  function_name    = "nextgenz-dr-lambda"
-  role             = aws_iam_role.lambda_exec_role.arn
-  handler          = "lambda_function.lambda_handler"
-  runtime          = "python3.9"
-  timeout          = 60
+  filename      = var.lambda_zip_path
+  function_name = "nextgenz-dr-lambda"
+  role          = aws_iam_role.lambda_exec_role.arn
+  handler       = "lambda_function.lambda_handler"
+  runtime       = "python3.9"
+  timeout       = 60
 
   environment {
     variables = {
@@ -66,10 +66,18 @@ resource "aws_iam_role_policy" "lambda_policy" {
           "logs:PutLogEvents"
         ]
         Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "rds:ListTagsForResource"
+        ]
+        Resource = "*"
       }
     ]
   })
 }
+
 
 resource "aws_cloudwatch_event_rule" "hourly_dr_schedule" {
   name                = "nextgenz-dr-hourly-schedule"
