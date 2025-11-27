@@ -22,3 +22,9 @@ variable "environment" {
   type        = string
   default     = "prod"
 }
+
+variable "aws_account_id" {
+  description = "ID da conta AWS para a policy do Secrets Manager"
+  type        = string
+}
+

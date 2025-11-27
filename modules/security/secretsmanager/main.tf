@@ -17,3 +17,27 @@ resource "aws_secretsmanager_secret_version" "rds_secret_value" {
     password = var.password
   })
 }
+
+resource "aws_secretsmanager_secret_policy" "rds_secret_policy" {
+  secret_arn = aws_secretsmanager_secret.rds_secret.arn
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowDescribeSecretForRoot"
+        Effect = "Allow"
+        Principal = {
+          AWS = "arn:aws:iam::" + var.aws_account_id + ":root"
+        }
+        Action = [
+          "secretsmanager:DescribeSecret",
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:ListSecrets"
+        ]
+        Resource = aws_secretsmanager_secret.rds_secret.arn
+      }
+    ]
+  })
+}
+

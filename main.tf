@@ -1,13 +1,17 @@
 ###########################################
-# Módulo Secrets Manager
+# Modulo Secrets Manager
 ###########################################
 module "secretsmanager" {
-  source      = "./modules/security/secretsmanager"
-  secret_name = "nextgenz-rds-secret"
-  username    = "admin"
-  password    = "Senai134"
-  environment = "prod"
+  source        = "./modules/security/secretsmanager"
+  secret_name   = var.secret_name
+  username      = var.username
+  password      = var.password
+  environment   = var.environment
+
+  aws_account_id = var.aws_account_id
+
 }
+
 
 ###########################################
 # Módulo RDS
