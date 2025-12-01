@@ -14,10 +14,10 @@ output "secret_name" {
   value = module.secretsmanager.secret_name
 }
 
-output "cluster_role_name" {
-  value = module.iam.cluster_role_name
-}
+# output "cluster_role_name" {
+#   value = module.iam.cluster_role_name
+# }
 
-output "node_role_name" {
-  value = module.iam.node_role_name
-}
+# output "node_role_name" {
+#   value = module.iam.node_role_name
+# }

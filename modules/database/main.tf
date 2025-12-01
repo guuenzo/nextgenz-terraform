@@ -23,7 +23,7 @@ resource "aws_db_instance" "rds_instance" {
   db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
   vpc_security_group_ids = [var.db_sg_id]
 
-  publicly_accessible     = false
+  publicly_accessible     = true
   backup_retention_period = var.backup_retention_period
   deletion_protection     = false
   skip_final_snapshot     = true
